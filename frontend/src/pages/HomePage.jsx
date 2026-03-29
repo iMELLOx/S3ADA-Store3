@@ -1,51 +1,16 @@
+import { useEffect, useState } from "react";
+import { getProducts } from "../api";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Buttons from "../components/Buttons";
 
-const trendingProducts = [
-  {
-    name: "Spotify Premium",
-    subtitle: "1 Month Individual Plan",
-    price: "120",
-    state: "IN STOCK",
-    accent: "primary",
-    icon: "add_shopping_cart",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuD4O-xesBsqjZPcJfn78Q0iDJslWIlrLEApQmnf9QO8QP8TWclmAiQRReeSeEOzvSiuU8PIswak7vEtYeDawbNyHhX53bng3V3z2Zp5E9KfWaXmaCi0emZfXi-Sop1Xx7WRuSM4uozIt_cG3PwWpQrQrbhPrfXkfkl0tr0oESRFRpqm0-MA9ZgW6g80UiUAe735XIZaN_I6vm1GOqlWE9meb7zBCWVBJ06ykFrFyCI2MMq2WLjQuM9KuaNhkYmpgQSBfMDkCWQ6IMs",
-  },
-  {
-    name: "PSN Wallet $10",
-    subtitle: "USA Region Digital Code",
-    price: "550",
-    state: "IN STOCK",
-    accent: "secondary",
-    icon: "add_shopping_cart",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBNr6F6jhUQyccg9BnmmC-CUjxz_YXcnpgxzscm84rYokI5OcdYJdpRDd7gwfqLviH2j5_YDLMonm8AxGabbVfswwg7BcEcN-EjkODP31e5NquQuyOWnguGLGO1HQqJRgf6jK9FRQC9vjRjQ1auztWY2LXk5RxpIB_-8wFEo-srvjU39tPG28wpuY9GCR3KIf2Or-GZsqPpUYYptc9zdUdLpagsflcee-c98vhaPlz1uRCtewEtPVhlpjCFtUwNs0-hYffTxQgVyRc",
-  },
-  {
-    name: "PUBG 60 UC",
-    subtitle: "Direct Player ID Topup",
-    price: "45",
-    state: "IN STOCK",
-    accent: "primary",
-    icon: "add_shopping_cart",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAL7Rv-QrD468eBPW9VZiWngJlgx9g63PScWv4CQVMkpDElIN-BrIW8AJST2uXKlMFe5eDOK3zwzGM2vz_FTauIqeD8i6egDfttZhXzOHpVxN4tzWCjEAgUrETsmg60iYH3pHNQb_dv35Z09chrwlmMo2gSM3rhhsGg-wlMUtmlBCb4J_EnF6rlKYjJTYNqmoFbUcbOVjsTSrjFi_I0ThoET5mE37H0VjEGJALe9rJuW3jI7HP5lg4rQspbpUe4hqncTVznthtcDIA",
-  },
-  {
-    name: "Netflix Gift Card",
-    subtitle: "Premium UHD Access Code",
-    price: "300",
-    state: "SOLD OUT",
-    accent: "secondary",
-    icon: "block",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDJo0RO_ygltr3rCi3oQ_VIIzAEIMPqDfPsNVj2VbPldeerCt2rFv3KTcGDrawR2_aPTjZqyOlib6sZXqHpi5JD-Xdc9M-YrcxRwZPkMZ4kLPcf7fFR1YA3enB8DI2Sa1kqRAA5BFD5I6EVRjnc5vD6v9qTzdakqoYgzS7YHDEST4tvDiqF5XCElNlvPoY41L6Gse8jbvnzN-mOrnf2KAq2j_k5HIpw41poOY_YQU3J2RwM9fToWKxSrT3m7Q5LpS6RslxQaXrTC2U",
-  },
-];
-
+const [products, setProducts] = useState([]);
+useEffect(() => {
+  getProducts()
+    .then(data => setProducts(data))
+    .catch(err => console.error(err));
+}, []);
 export default function HomePage() {
   return (
     <div className="bg-[#0E0E0E] text-[#e5e2e1]">
@@ -221,7 +186,7 @@ export default function HomePage() {
               <div className="h-[1px] flex-grow bg-outline-variant/30" />
             </div>
             <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
-              {trendingProducts.map((product) => (
+              {products.map((product) => (
                 <div
                   key={product.name}
                   className={`glass-panel group relative border-l p-4 transition-all duration-300 ${
@@ -259,7 +224,7 @@ export default function HomePage() {
               { icon: "shield", color: "text-secondary", title: "Secure Payments", text: "InstaPay, Vodafone Cash & Bank Cards" },
               { icon: "bolt", color: "text-primary", title: "Instant Delivery", text: "Codes delivered in under 60 seconds" },
               { icon: "headset_mic", color: "text-secondary", title: "24/7 Support", text: "Professional help via WhatsApp chat" },
-            ].map((item) => (
+            products.map((product) => (
               <div key={item.title} className="flex items-center gap-6">
                 <span className={`material-symbols-outlined text-5xl ${item.color}`}>{item.icon}</span>
                 <div>
