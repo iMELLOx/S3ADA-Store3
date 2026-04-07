@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-const PORT = 5000;
+const PORT = Number(process.env.PORT) || 5000;
 
 const products = [
   { id: 1, name: "Valorant Points", price: 450 },
@@ -11,13 +11,27 @@ const products = [
   { id: 4, name: "PlayStation Plus", price: 3450 },
 ];
 
-app.use(cors());
+const corsOrigin = process.env.CORS_ORIGIN;
+app.use(
+  cors(
+    corsOrigin
+      ? {
+          origin: corsOrigin.split(",").map((origin) => origin.trim()),
+        }
+      : undefined
+  )
+);
+
 app.use(express.json());
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
 app.get("/api/products", (req, res) => {
   res.json(products);
 });
 
-app.listen(PORT, () => {
-  console.log(`S3ADA backend running on http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`S3ADA backend running on port ${PORT}`);
 });
