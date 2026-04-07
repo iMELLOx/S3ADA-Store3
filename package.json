@@ -1,0 +1,10 @@
+{
+  "name": "s3ada-store",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "install:backend": "npm --prefix backend install",
+    "postinstall": "npm run install:backend",
+    "start": "npm --prefix backend start"
+  }
+}
